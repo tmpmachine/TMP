@@ -360,6 +360,8 @@
           // if (breadcrumbs.length > 1)
             // breadcrumbs.length e(0);
           // L(parentId)
+          if (!$('#in-my-files')[0].classList.contains('active'))
+            $('#btn-menu-my-files')[0].click();
           let rootTitle = (parentId == -1 || parentId === undefined) ? 'My Files' : '..';
           breadcrumbs.length = 0;
           breadcrumbs.push({folderId:parentId, title: rootTitle})
