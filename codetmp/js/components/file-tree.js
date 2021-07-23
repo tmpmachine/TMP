@@ -431,8 +431,10 @@
     };
 
     SELF.createWorkspace = function(folderId) {
-      if (parseInt(folderId) == -1)
+      if ($(`#tree-workspace [data-fid="${folderId}"]`).length > 0) {
+        SELF.changeWorkspace(folderId)
         return;
+      }
       let folder = fileManager.get({fid: folderId, type: 'folders'});
       let node = document.createElement('div');
       node.dataset.fid = folderId;
@@ -447,6 +449,7 @@
       $('.folder-name', treeNode)[0].textContent = folder.name;
       $('#file-tree')[0].append(treeNode);
       SELF.reloadWorkspace(folderId);
+      SELF.changeWorkspace(folderId)
     };
 
     return SELF;
