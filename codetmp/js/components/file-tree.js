@@ -7,6 +7,12 @@
 
   function FileTreeComponent() {
 
+    // local variable
+    const _ = {
+
+    };
+
+    // component interface 
     const SELF = {
       workspaceId: -1, // folder FID
     };
@@ -379,12 +385,20 @@
             e.target.remove();
             $(`.file-tree[data-fid="${e.target.dataset.fid}"]`)[0].remove();
             
+            _.removeWorktreeData(e.target.dataset.fid);
+
             if (SELF.workspaceId == parseInt(e.target.dataset.fid)) {
               SELF.changeWorkspace(-1);
             }
           });
         }
       });
+    }
+
+    _.removeWorktreeData = function(fid) {
+      let index = odin.dataOf(fid, tempData.data.worktree, 'fid');
+      tempData.data.worktree.splice(index, 1);
+      tempData.save();
     }
 
     function updateTreeBreadcrumbs(fid, node, isDirectory = true) {
@@ -436,21 +450,39 @@
         return;
       }
       let folder = fileManager.get({fid: folderId, type: 'folders'});
-      let node = document.createElement('div');
-      node.dataset.fid = folderId;
-      node.dataset.parentId = folder.parentId;
-      node.classList.add('no-select');
-      node.textContent = folder.name;
-      $('#tree-workspace')[0].append(node);
+      let treeData = {
+        fid: folderId,
+        parentId: folder.parentId,
+        name: folder.name
+      };
+      _.appendWorktree(treeData);
+      tempData.data.worktree.push(treeData);
+      tempData.save();
 
-      let treeNode = $('template[data-name="tree-node"]')[0].content.cloneNode(true);
-      $('.file-tree-list', treeNode)[0].dataset.fid = folderId;
-      $('.folder-name', treeNode)[0].dataset.fid = folderId;
-      $('.folder-name', treeNode)[0].textContent = folder.name;
-      $('#file-tree')[0].append(treeNode);
       SELF.reloadWorkspace(folderId);
       SELF.changeWorkspace(folderId)
     };
+
+    _.appendWorktree = function(data) {
+      let node = document.createElement('div');
+      node.dataset.fid = data.fid;
+      node.dataset.parentId = data.parentId;
+      node.classList.add('no-select');
+      node.textContent = data.name;
+      $('#tree-workspace')[0].append(node);
+
+      let treeNode = $('template[data-name="tree-node"]')[0].content.cloneNode(true);
+      $('.file-tree-list', treeNode)[0].dataset.fid = data.fid;
+      $('.folder-name', treeNode)[0].dataset.fid = data.fid;
+      $('.folder-name', treeNode)[0].textContent = data.name;
+      $('#file-tree')[0].append(treeNode);
+    };
+
+    SELF.listWorktree = function(argument) {
+      for (let data of tempData.data.worktree) {
+        _.appendWorktree(data);
+      }
+    }
 
     return SELF;
   }
@@ -459,6 +491,7 @@
   window.app.getComponent('file-tree').then(ft => {
     ft.reload();
     ft.attachListener();
+    ft.listWorktree();
     if (settings.data.explorer.tree) {
       document.body.classList.toggle('--tree-explorer', true);
     }

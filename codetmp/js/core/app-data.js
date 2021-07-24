@@ -22,6 +22,13 @@
     }
   });
 
+  // testing out development data
+  window.tempData = new lsdb('tempData', {
+    root: {
+      worktree: []
+    }
+  });
+
   function initWorkspace() {
 
     let fileStructure = {
