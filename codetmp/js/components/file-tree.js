@@ -354,6 +354,11 @@
       $('#tree-workspace')[0].addEventListener("click", e => {
         if (e.target.parentNode === $('#tree-workspace')[0]) {
           let folderId = e.target.dataset.fid;
+          let isLoaded = e.target.dataset.isLoaded;
+          if (isLoaded == 'false') {
+            delete e.target.dataset.isLoaded; 
+            SELF.reloadWorkspace(folderId);
+          }
           SELF.changeWorkspace(folderId);
         }
       });
@@ -453,7 +458,7 @@
       let treeData = {
         fid: folderId,
         parentId: folder.parentId,
-        name: folder.name
+        name: folder.name,
       };
       _.appendWorktree(treeData);
       tempData.data.worktree.push(treeData);
@@ -469,6 +474,8 @@
       node.dataset.parentId = data.parentId;
       node.classList.add('no-select');
       node.textContent = data.name;
+      if (typeof(data.isLoaded) != 'undefined')
+        node.dataset.isLoaded = data.isLoaded;
       $('#tree-workspace')[0].append(node);
 
       let treeNode = $('template[data-name="tree-node"]')[0].content.cloneNode(true);
@@ -478,8 +485,9 @@
       $('#file-tree')[0].append(treeNode);
     };
 
-    SELF.listWorktree = function(argument) {
+    SELF.listLocalWorktree = function(argument) {
       for (let data of tempData.data.worktree) {
+        data.isLoaded = false;
         _.appendWorktree(data);
       }
     }
@@ -491,7 +499,7 @@
   window.app.getComponent('file-tree').then(ft => {
     ft.reload();
     ft.attachListener();
-    ft.listWorktree();
+    ft.listLocalWorktree();
     if (settings.data.explorer.tree) {
       document.body.classList.toggle('--tree-explorer', true);
     }
