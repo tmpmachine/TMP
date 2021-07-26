@@ -160,7 +160,7 @@ const fileClipBoard = (function() {
       type: fileType,
       source: data.parentId
     });
-    window.app.getComponent('file-tree').then(fileTree => {
+    window.app.getComponent('fileTree').then(fileTree => {
       let type = (fileType == 'files') ? 'file' : 'folder';
       fileTree.moveItemFrom(type, data, activeFolder);
     });

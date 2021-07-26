@@ -191,38 +191,38 @@ const ui = {
 	},
 	tree: {
 		renameFolder: function(folder) {
-			window.app.getComponent('file-tree').then(fileTree => {
+			window.app.getComponent('fileTree').then(fileTree => {
     		fileTree.renameItem(folder, 'folder');
     	});
 		},
 		renameFile: function(file) {
-			window.app.getComponent('file-tree').then(fileTree => {
+			window.app.getComponent('fileTree').then(fileTree => {
     		fileTree.renameItem(file, 'file');
     	});
 		},
 		appendFile: function(file) {
-			window.app.getComponent('file-tree').then(ft => {
+			window.app.getComponent('fileTree').then(ft => {
 	      ft.appendFile(file);
 	    });
 		},
 		appendFolder: function(folder) {
-			window.app.getComponent('file-tree').then(ft => {
+			window.app.getComponent('fileTree').then(ft => {
 	      ft.appendFolder(folder);
 	    });
 		},
 		createWorkspace: function() {
-			window.app.getComponent('file-tree').then(ft => {
+			window.app.getComponent('fileTree').then(ft => {
 	      ft.createWorkspace(activeFolder);
 	    });
 		},
 	},
 	highlightTree: function(fid, isRevealFileTree = true) {
-		window.app.getComponent('file-tree').then(ft => {
+		window.app.getComponent('fileTree').then(ft => {
       ft.highlightTree(fid, isRevealFileTree);
     });
 	},
 	reloadFileTree: function() {
-		window.app.getComponent('file-tree').then(ft => {
+		window.app.getComponent('fileTree').then(ft => {
 			ft.reload();
 		})
 	},
@@ -239,8 +239,9 @@ const ui = {
 	      newTab();
 	    focusTab(fileTab[activeTab].fid);
 	    loadBreadCrumbs();
-	    window.app.getComponent('file-tree').then(ft => {
-				ft.reload();
+	    window.app.getComponent('fileTree').then(ft => {
+				// ft.reload();
+				app.fileTree.reset()
 			})
 	  }
 	},
@@ -545,7 +546,7 @@ const ui = {
         	metadata: ['trashed'],
         	type: 'folders'
       	});
-      	window.app.getComponent('file-tree').then(fileTree => {
+      	window.app.getComponent('fileTree').then(fileTree => {
       		fileTree.removeFolder(data);
       	});
 	    }
@@ -573,7 +574,7 @@ const ui = {
 		        metadata: ['trashed'],
 		        type: 'files'
 		    });
-		    window.app.getComponent('file-tree').then(fileTree => {
+		    window.app.getComponent('fileTree').then(fileTree => {
 	    		fileTree.removeFile(data);
 	      });
 	    }
@@ -1099,7 +1100,7 @@ function confirmCloseTab(focus = true, comeback) {
 
 function closeActiveTab() {
 	let fid = parseInt(fileTab[activeTab].fid); 
-	window.app.getComponent('file-tree').then(fileTree => {
+	window.app.getComponent('fileTree').then(fileTree => {
 	  fileTree.removeOpenIndicator(fid);
 	});
   $('#file-title').removeChild($('.file-tab')[activeTab]);

@@ -3,7 +3,7 @@
   // TODO: remove local query selector after updating all components that use
   let $ = function(selector, node=document) { return node.querySelectorAll(selector) };
 
-  window.app.registerComponent('file-tree', FileTreeComponent());
+  window.app.registerComponent('fileTree', FileTreeComponent());
 
   function FileTreeComponent() {
 
@@ -279,6 +279,12 @@
       listTree();
     }
 
+    SELF.reset = function() {
+      SELF.workspaceId = -1;
+      SELF.changeWorkspace(SELF.workspaceId); 
+      SELF.reload();
+    }
+
     SELF.reloadWorkspace = function (workspaceId) {
       let currentWorkspaceId = workspaceId;
       SELF.workspaceId = workspaceId;
@@ -367,10 +373,6 @@
         if (e.target.parentNode === $('#tree-workspace')[0]) {
           let folderId = e.target.dataset.fid;
           let parentId = e.target.dataset.parentId;
-          // SELF.changeWorkspace(folderId);
-          // if (breadcrumbs.length > 1)
-            // breadcrumbs.length e(0);
-          // L(parentId)
           if (!$('#in-my-files')[0].classList.contains('active'))
             $('#btn-menu-my-files')[0].click();
           let rootTitle = (parentId == -1 || parentId === undefined) ? 'My Files' : '..';
@@ -496,7 +498,7 @@
   }
 
 
-  window.app.getComponent('file-tree').then(ft => {
+  window.app.getComponent('fileTree').then(ft => {
     ft.reload();
     ft.attachListener();
     ft.listLocalWorktree();
