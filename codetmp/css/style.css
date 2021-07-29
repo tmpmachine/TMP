@@ -7,7 +7,7 @@
 .ov-auto{overflow:auto}.ov-hidden{overflow:hidden}
 .relative{position: relative}.absolute{position: absolute;}
 .d-inline-flex{display: inline-flex}.d-flex{display: flex;}.d-grid{display: grid;}.d-none{display: none;}
-.justify-content-end{justify-content: flex-end}
+.justify-content-end{justify-content: flex-end}.justify-content-between{justify-content: space-between}
 .ml-1{margin-left:var(--spacing-1)}.mt-1{margin-top:var(--spacing-1)}
 .ml-2{margin-left:var(--spacing-2)}
 
@@ -32,7 +32,6 @@ button, input, select, textarea {
   font-family: inherit;
   font-size: 100%;
 }
-
 .editor{position:absolute;top:0;left:0;bottom:0;right:0;z-index:7}
 
 /* W3.CSS 4.12 November 2018 by Jan Egil and Borge Refsnes */
@@ -66,7 +65,7 @@ img{vertical-align:middle}a{color:inherit}
 .w3-btn,.w3-button{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
 .w3-disabled,.w3-btn:disabled,.w3-button:disabled{cursor:not-allowed;opacity:0.3}.w3-disabled *,:disabled *{pointer-events:none}
 .w3-btn.w3-disabled:hover,.w3-btn:disabled:hover{box-shadow:none}
-.w3-input{padding:8px;display:block;border:none;border-bottom:1px solid #ccc;width:100%}
+.w3-input{padding:8px;display:block;border:none;border-bottom:1px solid #ccc;width:100%;}
 .w3-check{width:24px;height:24px;position:relative;top:6px}
 .w3-container:after,.w3-container:before,.w3-row:after,.w3-row:before,.w3-row-padding:after,.w3-row-padding:before,
 .w3-col{float:left;width:100%}
@@ -158,7 +157,7 @@ html,body{height:100%;}
 #nav{z-index:25}
 #nav-bar{z-index:30}
 .window{z-index:40}
-#cconfirm-modal{z-index:41}
+#cconfirm-modal,.modal-component{z-index:41}
 
 .file-tab-container{background:#16191d;grid-template-columns: 1fr auto}
 #nav-bar{height:34px;justify-content:space-between;color:#fafafa;background: #121417}
@@ -373,10 +372,15 @@ body:not(.--tree-explorer) .tree-explorer{display: none}
   		grid-template-rows: auto 1fr auto;
   		margin: 0 16px;position: relative;border-radius: 3px;overflow: hidden
   	}
-  	.window .Content section {
+  	.modal-component .Content section, .window .Content section {
   		padding: 0 16px;
   	}
+  	.modal-component .Header {
+  		background:#313235;
+  		padding:8px 16px;
+  	}
   	.window .Header {
+  		display: flex;
       /*background:#383a42;*/
   		background:#313235;
   		/*border-bottom:1px solid #3eaaff;*/
@@ -384,10 +388,10 @@ body:not(.--tree-explorer) .tree-explorer{display: none}
 	    justify-content: space-between;
 	    align-items: center;
   	}
-  	.window h5 {
+  	.modal-component h5,.window h5 {
   		text-transform: uppercase;font-size: 14px
   	}
-  	.window .Content {
+  	.modal-component .Content, .window .Content {
 		padding: 16px 0 32px;
 		overflow: auto;
   	}
@@ -418,7 +422,7 @@ body:not(.--tree-explorer) .tree-explorer{display: none}
 	  filter:blur(1px);
 	}
 
-  .window .Modal {
+  .modal-component .Modal, .window .Modal {
     transition: 0.25s;
     transform: scale(1);
   }
@@ -438,12 +442,13 @@ body:not(.--tree-explorer) .tree-explorer{display: none}
   .window.Hide .Modal{
   	visibility: hidden;;
 	}
-.window input:focus {
+
+  	.modal-component input:focus,.window input:focus {
     background: #4d515b;
     /*outline: 1px solid #6186a5;*/
     outline: 1px solid #7c7d7d;
 }
-.window input {
+.modal-component input, .window input {
     color: #ffffff;
     background: #464a53;
     border: 0;
@@ -884,4 +889,23 @@ i.Btn-close.material-icons.w3-button.w3-hover-none:hover {
 .tree-explorer ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
+}
+
+
+.modal-component .toggler {
+  border: 0;
+  background: none;
+  transition: 250ms;
+  cursor: pointer;
+  width: 41px;
+  color:#aaa;
+}
+.modal-component .toggler:hover {
+  color: #d2d2d2;
+}
+.modal-component .toggler:active {
+  color: #fff;
+}
+.modal-component .toggler:focus {
+  outline-color: #e91e63;
 }
