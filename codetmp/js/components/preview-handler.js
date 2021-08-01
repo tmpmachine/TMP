@@ -55,7 +55,7 @@ function PreviewHandler() {
       }, '*');
     } else {
 
-      if (file.isTemp && file.content === null) {
+      if (file.isTemp && helper.hasFileReference(file.fileRef) && file.content === null) {
         
         previewLoadWindow.postMessage({
           message: 'response-file', 
@@ -248,7 +248,7 @@ function PreviewHandler() {
     let parentId = filePath.parentId;
 
     if (file !== null) {
-      if (file.isTemp && file.content === null) {    
+      if (file.isTemp && helper.hasFileReference(file.fileRef) && file.content === null) {    
         return file.fileRef;
       } else if (!file.loaded) {
         aww.pop('Downloading required file : '+file.name);

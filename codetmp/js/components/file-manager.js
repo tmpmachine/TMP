@@ -468,7 +468,7 @@ function FileManager() {
 
       let src = f.contentLink;
 
-      if (f.isTemp && f.content === null) {
+      if (f.isTemp && helper.hasFileReference(f.fileRef) && f.content === null) {
       // if (f.fileRef.name !== undefined) {
         src = URL.createObjectURL(f.fileRef);
       } else {

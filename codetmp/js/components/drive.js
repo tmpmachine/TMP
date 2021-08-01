@@ -460,7 +460,7 @@ const drive = (function() {
     } else {
       form.append('metadata', new Blob([JSON.stringify(metaHeader)], { type: 'application/json' }));
       if ((action === 'create' || metadata.includes('media')) && type === 'files') {
-        if (isTemp && content === null) {
+        if (isTemp && helper.hasFileReference(fileRef) && content === null) {
           fileBlob = fileRef
           form.append('file', fileBlob);
         } else {

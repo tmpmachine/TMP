@@ -131,6 +131,10 @@ const helper = (function () {
       return  'Changes you made may not be saved';
   }
 
+  function hasFileReference(fileRef) {
+    return !(typeof(fileRef.name) == 'undefined');
+  }
+
   return {
     getFileNameLength,
     generateRemoteDataContent,
@@ -145,6 +149,7 @@ const helper = (function () {
     isMediaTypeAV,
     getFileIconColor,
     redirectWarning,
+    hasFileReference,
   };
 
 })();

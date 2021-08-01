@@ -22,7 +22,7 @@
               let f = fileManager.get({fid: Number(file.getAttribute('data')), type: 'files'})
               if (f.trashed)
                 continue;
-              if (f.isTemp && f.content === null) {
+              if (f.isTemp && helper.hasFileReference(f.fileRef) && f.content === null) {
                 zip.file(f.name, f.fileRef, {binary: true});
               } else {
                 fileRequests.push({f, folder: zip, options})
@@ -46,7 +46,7 @@
           let f = fileManager.get({fid: Number(file.getAttribute('data')), type: 'files'})
           new Promise(resolveReader => {
 
-              if (f.isTemp && f.content === null) {
+              if (f.isTemp && helper.hasFileReference(f.fileRef) && f.content === null) {
               // if (f.fileRef.name !== undefined) {
                 resolveReader(f.fileRef);
               } else {
@@ -121,7 +121,7 @@
     SELF.getReqFileContent = function(f, options) {
       return new Promise(resolve => {
 
-            if (f.isTemp && f.content === null) {
+            if (f.isTemp && helper.hasFileReference(f.fileRef) && f.content === null) {
             // if (f.fileRef.name !== undefined) {
               resolve(f.fileRef);
               return
@@ -233,7 +233,7 @@
         for (let f of files) {
           if (f.trashed)
             continue;
-          if (f.isTemp && f.content === null) {    
+          if (f.isTemp && helper.hasFileReference(f.fileRef) && f.content === null) {    
           // if (f.fileRef.name !== undefined) {
             folder.file(f.name, f.fileRef, {binary: true});
           } else {
