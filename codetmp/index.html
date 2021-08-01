@@ -32,7 +32,7 @@
             <div class="w3-padding homepage-content">
               <div>
               <h3 style="font-weight:bold;margin-bottom: 0">Codetmp</h3>
-              <div class="w3-tiny" style="opacity:0.5;">Build v7.3.4, August 2021</div>
+              <div class="w3-tiny" style="opacity:0.5;">Build v7.3.5, August 2021</div>
               <p>Static web development sandbox by <u><a href="http://pacolemon.blogspot.com/">PacoLemon</a></u>.</p>
               <p>Codetmp is all about :</p>
               <ul>
@@ -442,7 +442,6 @@
   </template>
 
 
-
   <template id="modal-v2">
   <style>
     :host {
@@ -450,6 +449,7 @@
     }
     *,:after,:before{box-sizing:border-box}
     .window {
+      padding: 16px 0;
       position:fixed;
       top:0;
       left:0;
@@ -471,10 +471,13 @@
       transition: 0.25s;
       transform: scale(1);
       display: grid;
-      grid-template-rows: auto 1fr auto;
+      grid-template-rows: 1fr;
+      align-items:  center;
+      /*grid-template-rows: auto 1fr auto;*/
       margin: 0 16px;
       position: relative;
       overflow: hidden;
+      max-height: 100%;
     }
     .window.hide .modal {
       transform: scale(0.95);
@@ -489,7 +492,10 @@
       left: 0;
     }
     slot {
-      display: block;
+      overflow:  hidden;
+      display: grid;
+      max-height: 100%;
+      grid-template-rows:  1fr;
     }
   </style>
   
@@ -549,7 +555,7 @@
         let focusableContent = $(focusableElements, this.modalContent);
         this.firstFocusableElement = focusableContent[0]
         this.lastFocusableElement = focusableContent[focusableContent.length - 1]; 
-        let autofocusElement = $('[autofocus]', this.modalContent)[0];
+        let autofocusElement = $('.autofocus', this.modalContent)[0];
         document.addEventListener('keydown', this.keyTrapper);
         let self = this;
         document.activeElement.blur();
@@ -610,46 +616,6 @@
     style.textContent = selectors.join('\n');
   }
 </script>
-
-<!-- <button onclick="toggleModal()">Toggle modal</button> -->
-
-<modal-v2 class="modal-component" data-name="prompt">
-  <div class="Modal bg8 col1" slot="content">
-    
-    <div class="Header no-select d-flex justify-content-between">
-      <h5><b class="title"></b></h5>
-      <button class="material-icons toggler" data-target="account">close</button>
-    </div>
-    <div class="Content">
-      <form>
-        <section>
-        <input type="" name="" class="w3-input" spellcheck="false">
-        <small class="notes"></small>
-        <div class="w3-margin-top w3-right-align no-select">
-          <button class="Btn-submit btn-style-1" type="submit" name="submit" ><i class="material-icons">check</i>Ok</button>
-          <button name="cancel" class="Btn-cancel btn-style-2"><i class="material-icons">close</i>Cancel</button>
-        </div>
-        </section>
-      </form>
-      </div>
-    </div>
-
-
-  </div>
-</modal-v2>
-<!-- 
-<script>
-  function toggleModal() {
-    let modal = document.querySelectorAll('#lightbox')[0].toggle();
-    document.querySelectorAll('input', modal)[0].value = 'Default value on shown';
-  }
-
-  document.querySelector('#lightbox').addEventListener('onclose', function(event) {
-    let modal = event.target;
-    alert('Input value : '+document.querySelectorAll('input', modal)[0].value);
-  })  
-</script> -->
-
 
   <!--service worker handler-->
   <script>

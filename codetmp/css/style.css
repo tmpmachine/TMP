@@ -7,9 +7,11 @@
 .ov-auto{overflow:auto}.ov-hidden{overflow:hidden}
 .relative{position: relative}.absolute{position: absolute;}
 .d-inline-flex{display: inline-flex}.d-flex{display: flex;}.d-grid{display: grid;}.d-none{display: none;}
-.justify-content-end{justify-content: flex-end}.justify-content-between{justify-content: space-between}
+.justify-content-center{justify-content:center}.justify-content-end{justify-content: flex-end}.justify-content-between{justify-content: space-between}
+.align-items-center{align-items:center}
 .ml-1{margin-left:var(--spacing-1)}.mt-1{margin-top:var(--spacing-1)}
 .ml-2{margin-left:var(--spacing-2)}
+.mr-auto{margin-right:auto}
 
 .material-icons {
   font-family: 'Material Icons Round';
@@ -157,7 +159,7 @@ html,body{height:100%;}
 #nav{z-index:25}
 #nav-bar{z-index:30}
 .window{z-index:40}
-#cconfirm-modal,.modal-component{z-index:41}
+.modal-component{z-index:41}
 
 .file-tab-container{background:#16191d;grid-template-columns: 1fr auto}
 #nav-bar{height:34px;justify-content:space-between;color:#fafafa;background: #121417}
@@ -421,6 +423,11 @@ body:not(.--tree-explorer) .tree-explorer{display: none}
 	  -webkit-filter:blur(1px);
 	  filter:blur(1px);
 	}
+
+  .modal-component .Modal {
+    display:  inherit;
+    overflow:  hidden;
+  }
 
   .modal-component .Modal, .window .Modal {
     transition: 0.25s;
@@ -892,7 +899,7 @@ i.Btn-close.material-icons.w3-button.w3-hover-none:hover {
 }
 
 
-.modal-component .toggler {
+.modal-component .close-btn {
   border: 0;
   background: none;
   transition: 250ms;
@@ -900,12 +907,12 @@ i.Btn-close.material-icons.w3-button.w3-hover-none:hover {
   width: 41px;
   color:#aaa;
 }
-.modal-component .toggler:hover {
+.modal-component .close-btn:hover {
   color: #d2d2d2;
 }
-.modal-component .toggler:active {
+.modal-component .close-btn:active {
   color: #fff;
 }
-.modal-component .toggler:focus {
+.modal-component .close-btn:focus {
   outline-color: #e91e63;
 }

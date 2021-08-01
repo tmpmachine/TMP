@@ -43,10 +43,11 @@ const keyboardHandler = {
     pressedKeys.shiftKey = e.shiftKey; 
     pressedKeys.ctrlKey = e.ctrlKey; 
 
+    // L(modalWindowManager.hasOpenModal())
     if (modalWindowManager.hasOpenModal()) {
-      if (event.key === 'Escape') {
-        modalWindowManager.closeAll();
-      }
+      // if (event.key === 'Escape') {
+        // modalWindowManager.closeAll();
+      // }
       return;
     }
 

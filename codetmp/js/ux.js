@@ -321,23 +321,23 @@ const ui = {
 
   toggleFileDownload: function() {
     toggleModal('file-download');
-    let form = $('.modal-window[data-name="file-download"] form')[0];
-    setTimeout(() => {
-      form.submit.focus();
-    }, 50)
+    // let form = $('.modal-window[data-name="file-download"] form')[0];
+    // setTimeout(() => {
+      // form.submit.focus();
+    // }, 50)
   },
 
   toggleGenerateSingleFile: function() {
     toggleModal('generate-single-file');
-    let form = $('.modal-window[data-name="generate-single-file"] form')[0];
-    setTimeout(() => {
-      form.submit.focus();
-    }, 50)
+    // let form = $('.modal-window[data-name="generate-single-file"] form')[0];
+    // setTimeout(() => {
+      // form.submit.focus();
+    // }, 50)
   },
 
   previewMedia: function(file, mimeType) {
     toggleModal('media-preview');
-    
+
     let media;
     if (mimeType.includes('audio')) 
       media = document.createElement('audio');
@@ -345,20 +345,19 @@ const ui = {
       media = document.createElement('video');
     else if (mimeType.includes('image')) {
       media = document.createElement('img');
-      media.addEventListener('click', () => {
-        toggleModal('media-preview');
-      });
     }
     media.classList.add('Medial-el');
     media.setAttribute('controls','controls');
-    $('.media-preview .Media')[0].append(media);
+    let modal = $('.modal-component[data-name="media-preview"]')[0];
+    $('.media', modal)[0].innerHTML = '';
+    $('.media', modal)[0].append(media);
     
     return new Promise((resolve, reject) => {
       fileManager.getPreviewLink(file).then(resolve).catch(reject);
     }).then(src => {
       media.src = src;
-      $('.media-preview .Title')[0].textContent = file.name;
-      $('.media-preview .Download')[0].onclick = () => {
+      $('.title', modal)[0].textContent = file.name;
+      $('.download', modal)[0].onclick = () => {
         let a = document.createElement('a');
         a.href = src;
         a.target = '_blank';
@@ -771,23 +770,23 @@ const ui = {
 // modal
 
 function toggleModalByClick() {
-  toggleModal(this.dataset.target);
+	toggleModal(this.dataset.target);
 }
 
 function toggleModal(name) {
-  for (let modal of $('.modal-window')) {
-    if (modal.dataset.name == name) {
-      let isHide = modal.classList.toggle('Hide');
-      if (isHide) {
-      	stateManager.popState([0]);
-        if (modal.dataset.close)
-          ui[modal.dataset.close]();
-      } else {
-      	stateManager.pushState([0]);
-      }
-      break;
-    }
-  }
+	let modal = $(`.modal-component[data-name="${name}"]`)[0];
+	modal.addEventListener('onclose', onclosemodal);
+	modal.toggle();
+  stateManager.pushState([0]);
+}
+
+function onclosemodal(event) {
+	let modal = event.target;
+	modal.removeEventListener('onclose', onclosemodal);
+	// delay to handle global key listener
+  window.setTimeout(() => {
+    stateManager.popState([0]);
+  }, 50)
 }
 
 // init
