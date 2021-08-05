@@ -153,20 +153,21 @@ const fileReaderModule = (function() {
 				fileRef.entry = item.entry;
 			let existingItem = fileManager.getExistingItem(item.name, item.parentId);
 			if (existingItem) {
-	        	modal.confirm(`Item with the same name already exists. Overwrite? (${truncate(item.name)})`).then(() => {
+      	modal.confirm(`Item with the same name already exists. Overwrite? (${truncate(item.name)})`).then(() => {
 					existingItem.fileRef = fileRef;
+					delete existingItem.blob;
 					existingItem.loaded = true;
-				    fileManager.sync({
-				    	fid: existingItem.fid, 
-				        action: 'update',
-				        metadata: ['media'], 
-				        type: 'files',
-			          	isTemp: true,
-				    });
-				    delayResolve(resolve, item);
-			    }).catch(() => {
-				    delayResolve(resolve, item);
+			    fileManager.sync({
+			    	fid: existingItem.fid, 
+			        action: 'update',
+			        metadata: ['media'], 
+			        type: 'files',
+		          	isTemp: true,
 			    });
+			    delayResolve(resolve, item);
+		    }).catch(() => {
+			    delayResolve(resolve, item);
+		    });
 			} else {
 				let file = fileManager.newFile({
 				    fileRef,

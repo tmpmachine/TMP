@@ -121,13 +121,16 @@
     SELF.getReqFileContent = function(f, options) {
       return new Promise(resolve => {
 
-            if (f.isTemp && helper.hasFileReference(f.fileRef) && f.content === null) {
-            // if (f.fileRef.name !== undefined) {
-              resolve(f.fileRef);
-              return
-          }
-
         let mimeType = helper.getMimeType(f.name);
+        let isMultimedia = helper.isMediaTypeMultimedia(mimeType);
+        
+        if (f.isTemp && helper.hasFileReference(f.fileRef) && f.content === null) {
+          resolve(f.fileRef);
+          return
+        } else if (isMultimedia && typeof(f.blob) != 'undefined') {
+          resolve(f.blob);
+          return
+        }
           
           if (f.loaded) {
             
@@ -177,10 +180,13 @@
                     if (needConvertDivless(f, options)) {
                       let r = new FileReader();
                       r.onload = function() {
-                            resolve(new Blob([divless.replace(r.result)], {type:blob.type}));
-                          }
+                        let blob = new Blob([divless.replace(r.result)], {type:blob.type});
+                        resolve(blob);
+                      }
                       r.readAsText(blob);                 
                     } else {
+                      if (isMultimedia)
+                        f.blob = blob;
                       resolve(blob);
                     }
                   }

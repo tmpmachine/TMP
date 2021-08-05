@@ -149,6 +149,7 @@ const drive = (function() {
         if (new Date(f.modifiedTime).getTime()-new Date(modifiedTime).getTime() < -100) {
           
           f.modifiedTime = modifiedTime;
+          delete f.blob;
           
           if (f.loaded) {
 	          downloadDependencies(f).then(content => {
