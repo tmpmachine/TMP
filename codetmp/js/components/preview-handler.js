@@ -185,12 +185,13 @@ function PreviewHandler() {
             if (isFileFound) {
               file.content = event.data.body.content;
               file.modifiedTime = new Date().toISOString();
-              handleSync({
+              fileManager.handleSync({
                 fid: file.fid,
                 action: 'update',
                 metadata: ['media'],
                 type: 'files'
               });
+
               drive.syncToDrive();
               fileStorage.save();
             }
